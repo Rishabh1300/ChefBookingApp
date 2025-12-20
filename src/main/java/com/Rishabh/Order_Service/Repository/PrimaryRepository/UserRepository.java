@@ -1,6 +1,6 @@
-package com.Rishabh.Order_Service.Repository;
+package com.Rishabh.Order_Service.Repository.PrimaryRepository;
 
-import com.Rishabh.Order_Service.Entity.User;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

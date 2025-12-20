@@ -1,6 +1,6 @@
 package com.Rishabh.Order_Service.DTO;
 
-import com.Rishabh.Order_Service.Entity.ServiceType;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.ServiceType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

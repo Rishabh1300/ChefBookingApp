@@ -3,18 +3,15 @@ package com.Rishabh.Order_Service.Service.BookingServiceImpl;
 
 import com.Rishabh.Order_Service.DTO.BookingRequest;
 import com.Rishabh.Order_Service.DTO.BookingResponse;
-import com.Rishabh.Order_Service.DTO.UserRequest;
-import com.Rishabh.Order_Service.Entity.Booking;
-import com.Rishabh.Order_Service.Entity.Chef;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.Booking;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.Chef;
 import com.Rishabh.Order_Service.Exceptions.BookingNotFoundException;
 import com.Rishabh.Order_Service.Mapper.BookingMapper;
-import com.Rishabh.Order_Service.Repository.BookingRepository;
+import com.Rishabh.Order_Service.Repository.PrimaryRepository.BookingRepository;
 import com.Rishabh.Order_Service.Service.BookingService;
 import com.Rishabh.Order_Service.Service.ChefClient;
 import com.Rishabh.Order_Service.Service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.security.SecurityUtil;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

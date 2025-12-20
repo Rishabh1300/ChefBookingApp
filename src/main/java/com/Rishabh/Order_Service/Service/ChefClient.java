@@ -1,7 +1,7 @@
 package com.Rishabh.Order_Service.Service;
 
 
-import com.Rishabh.Order_Service.Entity.Chef;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.Chef;
 import com.Rishabh.Order_Service.Exceptions.ChefNotAvailableException;
 import com.Rishabh.Order_Service.Exceptions.ChefNotFoundException;
 import com.Rishabh.Order_Service.Utils.ChefDataStore;

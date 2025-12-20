@@ -1,6 +1,6 @@
 package com.Rishabh.Order_Service.DTO;
 
-import com.Rishabh.Order_Service.Entity.BookingStatus;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.BookingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

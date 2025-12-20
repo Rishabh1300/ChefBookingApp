@@ -1,4 +1,4 @@
-package com.Rishabh.Order_Service.Entity;
+package com.Rishabh.Order_Service.Entity.PrimaryDb;
 
 public enum ServiceType {
     VEG_ONLY,
