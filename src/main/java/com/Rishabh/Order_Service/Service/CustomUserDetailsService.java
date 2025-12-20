@@ -1,6 +1,6 @@
 package com.Rishabh.Order_Service.Service;
 
-import com.Rishabh.Order_Service.Repository.UserRepository;
+import com.Rishabh.Order_Service.Repository.PrimaryRepository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

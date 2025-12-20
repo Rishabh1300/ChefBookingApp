@@ -1,4 +1,4 @@
-package com.Rishabh.Order_Service.Entity;
+package com.Rishabh.Order_Service.Entity.PrimaryDb;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -23,6 +23,7 @@ public class User implements UserDetails {
     private Long id;
 
     @NotNull
+    @Column(name = "user_name")
     private String userName;
 
     @NotNull

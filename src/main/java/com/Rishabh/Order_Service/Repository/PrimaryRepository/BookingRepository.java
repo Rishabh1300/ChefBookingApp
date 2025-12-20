@@ -1,6 +1,6 @@
-package com.Rishabh.Order_Service.Repository;
+package com.Rishabh.Order_Service.Repository.PrimaryRepository;
 
-import com.Rishabh.Order_Service.Entity.Booking;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
