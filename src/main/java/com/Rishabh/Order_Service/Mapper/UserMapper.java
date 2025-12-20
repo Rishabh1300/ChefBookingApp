@@ -1,7 +1,7 @@
 package com.Rishabh.Order_Service.Mapper;
 
 import com.Rishabh.Order_Service.DTO.UserResponse;
-import com.Rishabh.Order_Service.Entity.User;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.User;
 
 
 public class UserMapper {

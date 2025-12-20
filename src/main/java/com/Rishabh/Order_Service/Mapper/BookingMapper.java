@@ -1,7 +1,7 @@
 package com.Rishabh.Order_Service.Mapper;
 
 import com.Rishabh.Order_Service.DTO.BookingResponse;
-import com.Rishabh.Order_Service.Entity.Booking;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.Booking;
 
 public class BookingMapper {
 

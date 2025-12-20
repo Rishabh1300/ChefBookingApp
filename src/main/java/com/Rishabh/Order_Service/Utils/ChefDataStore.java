@@ -1,6 +1,6 @@
 package com.Rishabh.Order_Service.Utils;
 
-import com.Rishabh.Order_Service.Entity.Chef;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.Chef;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
