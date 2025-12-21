@@ -12,6 +12,7 @@ import com.Rishabh.Order_Service.Service.BookingService;
 import com.Rishabh.Order_Service.Service.ChefClient;
 import com.Rishabh.Order_Service.Service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,6 +64,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Cacheable(
+            value = "user-bookings",
+            key = "#root.args[0]",
+            unless = "#result==null || #result.isEmpty()"
+    )
     public List<BookingResponse> getMyBookings(Long userId) {
         List<Booking> bookings = bookingRepository.findByUserId(userId);
         if (bookings.isEmpty()) {
@@ -73,6 +79,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Cacheable(
+            value = "chef-bookings",
+            key = "root.args[1]",
+            unless = "#result==null || #result.isEmpty()"
+    )
     public List<BookingResponse> getChefBookings(Long chefId) {
         Chef chef = chefClient.getChef(chefId);
         if (chef == null) {
@@ -113,5 +124,10 @@ public class BookingServiceImpl implements BookingService {
             throw new BookingNotFoundException("Booking not found with the booking id -> " + bookingId);
         }
 
+    }
+
+    @Override
+    public void deleteBooking(Long bookingId){
+        bookingRepository.deleteById(bookingId);
     }
 }
