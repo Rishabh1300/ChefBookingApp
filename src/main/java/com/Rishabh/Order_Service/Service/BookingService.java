@@ -17,7 +17,9 @@ public interface BookingService {
 
     public void deleteUserBooking(Long userId, Long bookingId);
 
-
     public void deleteChefBooking(Long userId,Long bookingId);
+
+    //for admin
+    public void deleteBooking(Long bookingId);
 
 }
