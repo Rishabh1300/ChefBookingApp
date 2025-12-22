@@ -20,6 +20,7 @@ public class BookingController {
         return bookingService.createBooking(request);
     }
 
+
     @GetMapping("/user/{userId}")
     public List<BookingResponse> getMappingFromUserId(@PathVariable Long userId){
         return bookingService.getMyBookings(userId);
@@ -44,5 +45,11 @@ public class BookingController {
     @DeleteMapping("/user/{userId}/{bookingId}")
     public void deleteBookingByUserId(@PathVariable Long userId,@PathVariable Long bookingId){
         bookingService.deleteUserBooking(userId,bookingId);
+    }
+
+    //just for admin panel
+    @DeleteMapping("/{bookingId}")
+    public void deleteBookingForAdmin(@PathVariable Long bookingId){
+        bookingService.deleteBooking(bookingId);
     }
 }
