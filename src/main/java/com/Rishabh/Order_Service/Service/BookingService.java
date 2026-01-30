@@ -22,4 +22,6 @@ public interface BookingService {
     //for admin
     public void deleteBooking(Long bookingId);
 
+    public void confirmBooking(Long bookingId);
+
 }

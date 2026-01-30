@@ -20,7 +20,6 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
@@ -47,8 +46,7 @@ public class PrimaryDbConfig {
         jpaProps.put("hibernate.hbm2ddl.auto", "update");
         jpaProps.put("hibernate.show_sql", "true");
 
-        LocalContainerEntityManagerFactoryBean emf =
-                new LocalContainerEntityManagerFactoryBean();
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 
         emf.setDataSource(primaryDataSource());
         emf.setPackagesToScan(

@@ -1,6 +1,6 @@
 package com.Rishabh.Order_Service.DTO;
 
-import com.Rishabh.Order_Service.Entity.PrimaryDb.ServiceType;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.BookingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,22 +10,16 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class BookingRequest {
+@NoArgsConstructor
+@Builder
+public class ChefBookedEvent {
 
-
-    private Long userId;
+    private Long bookingId;
     private Long chefId;
+    private String userEmail;
     private LocalDate bookingDate;
     private LocalTime startTime;
     private Integer durationInHours;
 
-    private String address;
-    private ServiceType serviceType;
-    private String specialInstructions;
-
 }
-
-

@@ -20,11 +20,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final SecurityConfig securityConfig;
 
-    public List<UserResponse> getAllUser() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(UserMapper::toUserResponse).toList();
-    }
-
     public User userIsAvailable(Long userId){
         return userRepository.findById(userId).orElseThrow(()->new UserNotFoundException("This user does not exists "));
     }
@@ -34,6 +29,7 @@ public class UserService {
             User user = User.builder()
                     .userName(userRequest.getUserName())
                     .password(securityConfig.passwordEncoder().encode(userRequest.getPassword()))
+                    .email(userRequest.getEmail())
                     .build();
 
             userRepository.save(user);
