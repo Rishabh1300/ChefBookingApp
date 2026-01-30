@@ -1,21 +1,32 @@
 package com.Rishabh.Order_Service.Service.BookingServiceImpl;
 
 
-import com.Rishabh.Order_Service.DTO.BookingRequest;
-import com.Rishabh.Order_Service.DTO.BookingResponse;
+import com.Rishabh.Order_Service.Annotation.LogExecutionTime;
+import com.Rishabh.Order_Service.DTO.*;
 import com.Rishabh.Order_Service.Entity.PrimaryDb.Booking;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.BookingStatus;
 import com.Rishabh.Order_Service.Entity.PrimaryDb.Chef;
+import com.Rishabh.Order_Service.Entity.PrimaryDb.User;
 import com.Rishabh.Order_Service.Exceptions.BookingNotFoundException;
+import com.Rishabh.Order_Service.Exceptions.UserNotFoundException;
 import com.Rishabh.Order_Service.Mapper.BookingMapper;
 import com.Rishabh.Order_Service.Repository.PrimaryRepository.BookingRepository;
+import com.Rishabh.Order_Service.Repository.PrimaryRepository.UserRepository;
+import com.Rishabh.Order_Service.Service.BookingEventProducerService;
 import com.Rishabh.Order_Service.Service.BookingService;
 import com.Rishabh.Order_Service.Service.ChefClient;
 import com.Rishabh.Order_Service.Service.UserService;
+import jakarta.transaction.TransactionManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -24,13 +35,18 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
     //    private final UserDetails userDetails;
     private final ChefClient chefClient;
+    private final BookingEventProducerService bookingEventProducerService;
+
+
     //because user api is not there
 //    private final UserRequest userRequest;
 
 
     @Override
+    @LogExecutionTime
     public BookingResponse createBooking(BookingRequest bookingRequest) {
         Long userId = bookingRequest.getUserId();
 
@@ -43,6 +59,10 @@ public class BookingServiceImpl implements BookingService {
 
        userService.userIsAvailable(bookingRequest.getUserId());
 
+       Double price = chefClient.calculatePrice(bookingRequest.getChefId(), bookingRequest.getDurationInHours());
+
+       User user = userRepository.findById(bookingRequest.getUserId()).orElseThrow(()-> new UserNotFoundException("User not available"));
+
 
         Booking booking = Booking.builder()
                 .userId(bookingRequest.getUserId())
@@ -52,15 +72,39 @@ public class BookingServiceImpl implements BookingService {
                 .durationInHours(bookingRequest.getDurationInHours())
                 .address(bookingRequest.getAddress())
                 .serviceType(bookingRequest.getServiceType())
-                .price(chefClient.calculatePrice(bookingRequest.getChefId(), bookingRequest.getDurationInHours()))
+                .price(price)
                 .specialInstructions(bookingRequest.getSpecialInstructions())
+                .status(BookingStatus.CREATED)
                 .build();
         bookingRepository.save(booking);
 
+        ChefBookedEvent event = ChefBookedEvent.builder()
+                .bookingId(booking.getId())
+                .userEmail(user.getEmail())
+                .chefId(bookingRequest.getChefId())
+                .bookingDate(bookingRequest.getBookingDate())
+                .startTime(booking.getStartTime())
+                .durationInHours(booking.getDurationInHours())
+                .build();
+
+        bookingEventProducerService.sendChefBookedEvent(event);
 
         return BookingMapper.mapToResponse(booking);
 
 
+
+
+    }
+
+
+    @Override
+    @Transactional
+    public void confirmBooking(Long bookingId){
+        Booking booking = bookingRepository.findById(bookingId).orElseThrow(()-> new RuntimeException("Booking not found"));
+        if(booking.getStatus()==BookingStatus.CREATED){
+            booking.setStatus(BookingStatus.CONFIRMED);
+            bookingRepository.save(booking);
+        }
     }
 
     @Override
@@ -78,6 +122,10 @@ public class BookingServiceImpl implements BookingService {
                 .stream().map(BookingMapper::mapToResponse).toList();
     }
 
+
+//    public Page<BookingResponse> getAllBooking(Pageable pageable){
+//        Page<Booking> bookings = bookingRepository.findAll(pageable);
+//    }
     @Override
     @Cacheable(
             value = "chef-bookings",

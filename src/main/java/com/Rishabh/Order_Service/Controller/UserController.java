@@ -25,11 +25,6 @@ public class UserController {
     }
 
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<UserResponse> getAllUsers(){
-        return userService.getAllUser();
-    }
 
 
 
