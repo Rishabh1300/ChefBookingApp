@@ -29,6 +29,9 @@ public class User implements UserDetails {
     @NotNull
     private String password;
 
+    @NotNull
+    private String email;
+
 
     //Methods of UserDetails Interface
 

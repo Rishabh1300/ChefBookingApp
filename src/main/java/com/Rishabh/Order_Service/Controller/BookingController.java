@@ -4,6 +4,8 @@ import com.Rishabh.Order_Service.DTO.BookingRequest;
 import com.Rishabh.Order_Service.DTO.BookingResponse;
 import com.Rishabh.Order_Service.Service.BookingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +17,7 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    @PostMapping
+    @PostMapping("/create")
     public BookingResponse createBooking(@RequestBody BookingRequest request){
         return bookingService.createBooking(request);
     }
@@ -32,10 +34,20 @@ public class BookingController {
         return bookingService.getMyBookings(chefId);
     }
 
+    //Correct Code
+//    @GetMapping
+//    public List<BookingResponse> getAllBookings(){
+//        return bookingService.getAllBookings();
+//    }
+
+
     @GetMapping
     public List<BookingResponse> getAllBookings(){
         return bookingService.getAllBookings();
     }
+
+
+
 
     @DeleteMapping("/chef/{chefId}/{bookingId}")
     public void deleteBookingByChefId(@PathVariable Long chefId,@PathVariable Long bookingId){
@@ -51,5 +63,11 @@ public class BookingController {
     @DeleteMapping("/{bookingId}")
     public void deleteBookingForAdmin(@PathVariable Long bookingId){
         bookingService.deleteBooking(bookingId);
+    }
+
+
+    @PostMapping("/{bookingId}/confirm")
+    public void confirmBooking(@PathVariable Long bookingId){
+        bookingService.confirmBooking(bookingId);
     }
 }
